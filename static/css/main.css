@@ -135,7 +135,7 @@ body.locked, .content-container, .self-wrapper, .article-title {
 
 .content-container {
     width: 320px;
-    height: 400px;
+    height: 160px;
     background: white;
     position: relative;
     border-radius: 3px;
@@ -150,28 +150,13 @@ body.locked, .content-container, .self-wrapper, .article-title {
     transform: translateX(0%);
 }
 
-.content-container[data-selection="2"] .self-wrapper {
-    transform: translateX(-33.33%);
-}
 
-.content-container[data-selection="2"] .btn-select-indicator {
-    transform: translateX(100%);
-}
-
-.content-container[data-selection="3"] .self-wrapper {
-    transform: translateX(-66.66%);
-}
-
-.content-container[data-selection="3"] .btn-select-indicator {
-    transform: translateX(200%);
-}
-
-.content-container[data-selection="1"] #switcher-btn-1 .btn-icon .fa, .content-container[data-selection="2"] #switcher-btn-2 .btn-icon .fa, .content-container[data-selection="3"] #switcher-btn-3 .btn-icon .fa {
+.content-container[data-selection="1"] #switcher-btn-1 .btn-icon .fa{
     font-size: 2.5rem;
     transform: translateY(.1em);
 }
 
-.content-container[data-selection="1"] #switcher-btn-1 .btn-text, .content-container[data-selection="2"] #switcher-btn-2 .btn-text, .content-container[data-selection="3"] #switcher-btn-3 .btn-text {
+.content-container[data-selection="1"] #switcher-btn-1 .btn-text{
     opacity: 0;
 }
 
@@ -334,7 +319,7 @@ body.locked, .content-container, .self-wrapper, .article-title {
     touch-action: pan-x;
     position: absolute;
     white-space: nowrap;
-    height: calc(100% - 64px);
+    height: calc(100%);
 }
 
 .switcher-btn {
@@ -437,7 +422,6 @@ body.locked, .content-container, .self-wrapper, .article-title {
         padding-left: 0;
         padding-top: 40vh;
     }
-
     .content-layer {
         width: 100vw;
         height: 60vh;
