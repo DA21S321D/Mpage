@@ -1,11 +1,3 @@
-/**
- *
- * Present by Zapic @ 2020
- * https://github.com/KawaiiZapic/Present/
- *
- * Please DO NOT remove this copyright message, as the basic respect for original author.
- *
- */
 
 NodeList.prototype.forEach = NodeList.prototype.forEach || function (callback) {
     for (let i = 0; i < this.length; i++) {
@@ -43,11 +35,6 @@ function Init(feedType, feedPath, bgArr, senArr) {
             var p = set[r];
             set[r] = set[i];
             set[i] = p;
-        }
-    }
-    function articleOutput(data){
-        for (var i = 0; i < data.length; i++) {
-            qSlt(".article-content").innerHTML += '<p class="article-item"><a target="_blank" class="article-title" href="' + data[i].link + '">' + data[i].title + '</a><span class="article-time">' + data[i].timestamp + '</span></p>';
         }
     }
 
@@ -105,9 +92,11 @@ function Init(feedType, feedPath, bgArr, senArr) {
     var selInd = qSlt(".btn-select-indicator");
     function handleTouchMove(eMove) {
         var rMove = eMove - ((parseInt(contentCon.getAttribute("data-selection")) - 1) / 3 * selfWrapper.offsetWidth);
-
-        rMove = Math.atan(rMove / 200) * 50;
-
+        if(rMove > 0) {
+            rMove = Math.atan(rMove / 200) * 50;
+        } else if(rMove < 0) {
+            rMove = Math.atan(rMove / 200) * 50;
+        }
         selfWrapper.style.transform = "translateX(" + (rMove).toString() + "px)";
         selInd.style.transform = "translateX(" + (-rMove/3).toString() + "px)"
     }
@@ -150,7 +139,7 @@ function Init(feedType, feedPath, bgArr, senArr) {
         var evt = e.changedTouches[0];
         if(Math.abs(tMovement.acc) > 0.05 || Math.abs(eMove - evt.pageX)  > selfWrapper.offsetWidth * 0.1) {
             var sel = parseInt(contentCon.getAttribute("data-selection"))
-            if(tMovement.acc > 0 && sel < 3) {
+            if(tMovement.acc > 0 && sel < 1) {
                 contentCon.setAttribute("data-selection", sel + 1);
             } else if(tMovement.acc < 0 &&sel > 1) {
                 contentCon.setAttribute("data-selection", sel - 1);
