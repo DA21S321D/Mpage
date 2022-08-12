@@ -51,62 +51,6 @@ function Init(feedType, feedPath, bgArr, senArr) {
         }
     }
 
-    var feed = new XMLHttpRequest();
-    feed.open("GET", feedPath, true);
-    feed.addEventListener("load", function () {
-        qSlt(".article-container").classList.add("loaded");
-        if (feed.status !== 200) {
-            setArtTip('<i class="fa fa-warning"></i><p class="article-empty-tip">暂时无法连接到博客</p>');
-            return;
-        }
-        var data = [];
-        try {
-            if(feedType === "json"){
-                data = JSON.parse(feed.responseText);
-                if (!data || data.status === -1) {
-                    throw new Error();
-                }
-                data = data.data;
-            } else if(feedType === "xml"){
-                var xml = feed.responseXML;
-                if(!xml){
-                    throw new Error();
-                }
-                data = [];
-                if(xml.querySelector("rss") != null){
-                    xml.querySelectorAll("channel item").forEach(function (v,i){
-                        if(i > 7){ return; }
-                        data.push({
-                            "link": v.querySelector("link").innerHTML,
-                            "timestamp": dateParser(v.querySelector("pubDate").innerHTML),
-                            "title": v.querySelector("title").innerHTML
-                        });
-                    });
-                } else if(xml.querySelector("feed") != null) {
-                    xml.querySelectorAll("feed entry").forEach(function (v,i){
-                        if(i > 7){ return; }
-                        data.push({
-                            "link": v.querySelector("link").getAttribute("href"),
-                            "timestamp": v.querySelector("published").innerHTML.slice(0,10),
-                            "title": v.querySelector("title").innerHTML
-                        });
-                    });
-                } else {
-                    throw new Error();
-                }
-            }
-        } catch (e) {
-            setArtTip('<i class="fa fa-warning"></i><p class="article-empty-tip">暂时无法连接到博客</p>');
-            return;
-        }
-        data.length === 0 ? setArtTip('<i class="fa fa-inbox"></i><p class="article-empty-tip">暂时没有文章</p>') : articleOutput(data);
-
-    });
-    feed.addEventListener("error", function () {
-        qSlt(".article-container").classList.add("loaded");
-        setArtTip('<i class="fa fa-warning"></i><p class="article-empty-tip">暂时无法连接到博客</p>');
-    });
-    feed.send();
     var sBg = bgArr[Math.floor(Math.random() * bgArr.length)];
     qSlt(".background-layer").style.backgroundImage = "url(" + sBg.thumb + ")";
     var bgLoader = new Image();
@@ -161,11 +105,9 @@ function Init(feedType, feedPath, bgArr, senArr) {
     var selInd = qSlt(".btn-select-indicator");
     function handleTouchMove(eMove) {
         var rMove = eMove - ((parseInt(contentCon.getAttribute("data-selection")) - 1) / 3 * selfWrapper.offsetWidth);
-        if(rMove > 0) {
-            rMove = Math.atan(rMove / 200) * 50;
-        } else if(rMove < selfWrapper.offsetWidth * -0.6666) {
-            rMove = selfWrapper.offsetWidth * -0.6666 + Math.atan((rMove - selfWrapper.offsetWidth * -0.6666) / 200) * 50;
-        }
+
+        rMove = Math.atan(rMove / 200) * 50;
+
         selfWrapper.style.transform = "translateX(" + (rMove).toString() + "px)";
         selInd.style.transform = "translateX(" + (-rMove/3).toString() + "px)"
     }
@@ -220,4 +162,3 @@ function Init(feedType, feedPath, bgArr, senArr) {
         selInd.style.transition = "";
     });
 }
-console.log("\n %c Present %c By Zapic \n\n", "color: #fff; background: #fb7299; padding:5px 0;", "background: #efefef; padding:5px 0;");
