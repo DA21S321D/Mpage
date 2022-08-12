@@ -126,7 +126,7 @@ body.locked, .content-container, .self-wrapper, .article-title {
     position: absolute;
     border-radius: 5px;
     box-sizing: border-box;
-    background-color: white;
+    background-color: rgb(192, 242, 187);
 }
 
 .btn-text {
@@ -136,7 +136,7 @@ body.locked, .content-container, .self-wrapper, .article-title {
 .content-container {
     width: 320px;
     height: 160px;
-    background: white;
+    background: rgb(255, 255, 255);
     position: relative;
     border-radius: 3px;
     box-shadow: 4px 4px 5px 0 rgba(0, 0, 0, .5);
@@ -173,7 +173,7 @@ body.locked, .content-container, .self-wrapper, .article-title {
 
 .dokidoki-text {
     opacity: 0;
-    color: white;
+    color: rgb(91, 233, 255);
     font-size: .4em;
     line-height: 1.2;
     max-width: 200px;
@@ -404,14 +404,14 @@ body.locked, .content-container, .self-wrapper, .article-title {
     }
     66% {
         opacity: 1;
-        color: #333;
+        color: rgb(210, 168, 109);
         transform: translateY(-1em);
         text-shadow: none;
     }
     100% {
         transform: translateY(-1.2em);
         opacity: 1;
-        color: white;
+        color: rgba(253, 149, 30, 0.888);
         text-shadow: 4px 4px 5px rgba(0, 0, 0, .5);
     }
 
