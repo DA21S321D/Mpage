@@ -80,6 +80,7 @@
     (function () {
         var feedType = "json";
         var feedPath = "feed.php";
+        var header = "Referer:https://weibo.com/";
         var bgArr = [{
             "url": "https://iw233.cn/api.php?sort=random",
             "thumb": "https://iw233.cn/api.php?sort=random"
@@ -97,7 +98,7 @@
             }
         ];
 
-        Init(feedType, feedPath, bgArr, senArr);
+        Init(feedType, feedPath, bgArr, header, senArr);
     })();
 </script>
 <style>
