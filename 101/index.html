@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>❤️站❤️长❤️推❤️荐❤️</title>
+    <style type="text/css">
+        p {
+            margin: 0;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        .overlay,
+        .scare {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            z-index: 3;
+            font-size: 24px;
+            color: #000;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .loading-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .loading-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: slideUp 5s linear infinite;
+        }
+
+        .loading-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        @keyframes slideUp {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+        }
+
+        .loading-characters {
+            display: flex;
+            justify-content: center;
+        }
+
+        .char {
+            font-size: 20px;
+            animation: charBounce 1.5s infinite;
+            margin: 0 2px;
+        }
+
+        .char:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .char:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .char:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .char:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .char:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .char:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        .char:nth-child(7) {
+            animation-delay: 0.7s;
+        }
+
+        @keyframes charBounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        p.overlay-title {
+            font-size: 24px;
+            font-weight: 900;
+            color: black;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .overlay-button {
+            display: inline-flex;
+            align-items: center;
+            height: 40px;
+            padding-right: 24px;
+            padding-left: 24px;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 1;
+            border-radius: 4px;
+            margin: 4px;
+            cursor: pointer;
+        }
+
+        .overlay-buttons-wrapper {
+            margin: 24px -8px -8px;
+        }
+
+        #accept-button {
+            background-color: rgb(255, 0, 0);
+            color: white;
+        }
+
+        #decline-button {
+            color: rgb(0, 0, 0);
+            border: 2px solid rgb(0, 0, 0);
+        }
+
+        p.overlay-description {
+            font-size: 16px;
+            font-weight: 400;
+            color: rgba(0, 0, 0, 0.5);
+            line-height: 1.25;
+            margin-bottom: 16px;
+        }
+
+        a.overlay-link {
+            display: inline-block;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            color: rgb(255, 0, 0);
+            line-height: 1;
+            position: relative;
+            margin-top: 16px;
+        }
+
+        a.overlay-link::before {
+            position: absolute;
+            content: "";
+            height: calc(50% + 4px);
+            width: calc(100% + 8px);
+            bottom: -4px;
+            left: -4px;
+            background-color: rgba(132, 94, 194, 0.1);
+        }
+
+        .overlay-body {
+            max-width: 512px;
+            text-align: center;
+            font-family: "Inter", sans-serif;
+        }
+
+        .overlay[hidden] {
+            display: none;
+        }
+
+        .overlay {
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center 0;
+        }
+
+        .text-bg {
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 24px;
+        }
+
+        .scare {
+            z-index: 1;
+        }
+
+        video#video {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        video#video::-webkit-media-controls-enclosure {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-container" id="loading-container"></div>
+    </div>
+    <div id="overlay" class="overlay hidden">
+        <div class="text-bg">
+            <div class="overlay-body">
+                <p class="overlay-title">您是否已满18岁</p>
+                <p class="overlay-description">以下内容可能不适合<b>未满18岁</b>的人群观看，我们需要确认您的年龄。</p>
+                <p class="overlay-description">The following may not be suitable for people <b>under the age of 18</b> and we need to confirm your age.</p>
+                <div class="overlay-buttons-wrapper">
+                    <div id="accept-button" class="overlay-button">已满18岁</div>
+                    <div id="decline-button" class="overlay-button">未满18岁</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="scare">
+        <video id="video" class="video" src="https://vdse.bdstatic.com/192d9a98d782d9c74c96f09db9378d93.mp4" loop="loop"></video>
+        <img src="https://count.getloli.com/get/@rickroll" style="display: none;">
+    </div>
+    <script type="text/javascript">
+        window.onload = () => {
+            console.log("页面加载中...");
+
+            const calculateImageCount = () => {
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+                const imageSize = 150; // 设置图片大小为150x150
+                const columns = Math.floor(screenWidth / imageSize);
+                const rows = Math.floor(screenHeight / imageSize);
+                return columns * rows;
+            };
+
+            const loadImages = (count) => {
+                const container = document.getElementById('loading-container');
+                for (let i = 0; i < count; i++) {
+                    const item = document.createElement('div');
+                    item.classList.add('loading-item');
+
+                    const img = document.createElement('img');
+                    img.classList.add('loading-image');
+                    img.src = `http://www.dmoe.cc/random.php?i=${i}`; // 使用随机图片API
+
+                    const text = document.createElement('div');
+                    text.classList.add('loading-characters');
+                    const chars = ['L', 'O', 'A', 'D', 'I', 'N', 'G'];
+                    chars.forEach((char, index) => {
+                        const span = document.createElement('span');
+                        span.classList.add('char');
+                        span.style.animationDelay = `${index * 0.1}s`;
+                        span.textContent = char;
+                        text.appendChild(span);
+                    });
+
+                    item.appendChild(img);
+                    item.appendChild(text);
+                    container.appendChild(item);
+                }
+            };
+
+            const imageCount = calculateImageCount();
+            console.log(`将加载${imageCount}个图片`);
+            loadImages(imageCount); // 根据屏幕大小加载图片数量
+
+            fetch("https://api.nekosapi.com/v3/images/random")
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('网络响应不正常');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log("数据加载成功：", data);
+                    const nsfwImage = data.items.find(item => item.tags.some(tag => tag.is_nsfw));
+                    if (nsfwImage) {
+                        console.log("找到NSFW图片：", nsfwImage.image_url);
+                        const img = new Image();
+                        img.src = nsfwImage.image_url;
+                        img.onload = () => {
+                            console.log("图片加载成功");
+                            document.getElementById('overlay').style.backgroundImage = `url(${nsfwImage.image_url})`;
+                            document.getElementById('loading-screen').style.display = 'none';
+                            document.getElementById('overlay').classList.remove('hidden');
+                        };
+                        img.onerror = () => {
+                            console.error('图片加载失败');
+                            document.getElementById('loading-screen').textContent = '图片加载失败';
+                        };
+                    } else {
+                        console.error('没有找到NSFW图片');
+                        document.getElementById('loading-screen').textContent = '没有找到NSFW图片';
+                    }
+                })
+                .catch(error => {
+                    console.error('请求出错：', error);
+                    document.getElementById('loading-screen').textContent = '请求出错，请重试';
+                });
+
+            const video = document.getElementById("video");
+            const overlay = document.getElementById("overlay");
+            const declineButton = document.getElementById("decline-button");
+            const acceptButton = document.getElementById("accept-button");
+            let hasClicked;
+
+            window.onbeforeunload = function () {
+                if (hasClicked) return true;
+            };
+
+            function buttonClick1(event) {
+                event.preventDefault();
+                if (!hasClicked) hasClicked = true;
+                overlay.hidden = true;
+                video.play();
+                videoClick();
+            }
+
+            function buttonClick2(event) {
+                window.location.href = 'https://xingye.me/game/index.php';
+            }
+
+            function videoClick(event) {
+                if (event) event.preventDefault();
+                // if not fullscreen
+                const { documentElement } = document;
+                if (documentElement.requestFullscreen) documentElement.requestFullscreen();
+                else if (documentElement.mozRequestFullScreen) documentElement.mozRequestFullScreen();
+                else if (documentElement.webkitRequestFullscreen) documentElement.webkitRequestFullscreen();
+                else if (documentElement.msRequestFullscreen) documentElement.msRequestFullscreen();
+            }
+
+            acceptButton.addEventListener("click", buttonClick1);
+            declineButton.addEventListener("click", buttonClick2);
+            video.addEventListener("click", videoClick);
+        };
+    </script>
+</body>
+
+</html>
