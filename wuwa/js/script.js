@@ -1,3 +1,29 @@
+function loadRandomBackground() {
+    const images = [
+        'pic/1.png',
+        'pic/2.png',
+        'pic/3.png',
+        'pic/4.png'
+    ];
+
+    // 随机选择一张图片作为背景
+    const randomIndex = Math.floor(Math.random() * images.length);
+    const selectedImage = images[randomIndex];
+    console.log(`Selected Image: ${selectedImage}`);  // 调试输出，检查是否正确选择了图片
+
+    // 检查图片是否加载成功
+    const img = new Image();
+    img.src = selectedImage;
+    img.onload = function() {
+        document.body.style.backgroundImage = `url('${selectedImage}')`;
+        console.log('Background image loaded successfully.');
+    };
+    img.onerror = function() {
+        console.error('Failed to load background image.');
+        document.body.style.backgroundColor = '#333';  // 如果图片加载失败，设置默认背景颜色
+    };
+}
+
 function calculatePeriods() {
     const startPeriod = new Date("2024-08-19T17:00:00");  // 初始周期时间点
     const periodDays = 14;  // 每个周期的天数
@@ -36,38 +62,14 @@ function calculatePeriods() {
 
     // 显示距离下一个周期的时间
     document.getElementById("time-until-next").innerHTML =
-        "距离下一个周期还有：" + days + "天 " + hours + "小时 " + minutes + "分钟 " + seconds + "秒";
+        "距离下一次刷新还有：" + days + "天 " + hours + "小时 " + minutes + "分钟 " + seconds + "秒";
 }
-
-function loadRandomBackground() {
-    const picFolder = 'pic/'; // 图片文件夹路径
-
-    // 使用 AJAX 请求文件夹中的图片
-    fetch(picFolder)
-        .then(response => response.text())
-        .then(data => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(data, 'text/html');
-            const imageLinks = Array.from(htmlDoc.querySelectorAll('a'))
-                                    .map(a => a.href)
-                                    .filter(href => href.match(/\.(jpg|jpeg|png|gif)$/i));
-
-            if (imageLinks.length > 0) {
-                const randomIndex = Math.floor(Math.random() * imageLinks.length);
-                const selectedImage = imageLinks[randomIndex];
-                document.body.style.backgroundImage = `url('${selectedImage}')`;
-            } else {
-                document.body.style.backgroundColor = '#333'; // 如果没有加载到图片，设置默认背景颜色
-            }
-        })
-        .catch(error => console.error('Error loading images:', error));
-}
-
-// 每秒更新一次距离下一个周期的时间
-setInterval(calculatePeriods, 1000);
 
 // 页面加载时调用背景加载函数
 window.onload = function() {
-    calculatePeriods();
     loadRandomBackground();
+    calculatePeriods();
 };
+
+// 每秒更新一次距离下一个周期的时间
+setInterval(calculatePeriods, 1000);
