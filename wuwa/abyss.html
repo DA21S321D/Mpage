@@ -11,9 +11,10 @@
     <div id="content">
         <h1>鸣潮深渊倒计时</h1>
         <p><strong>当前时间：</strong> <span id="current-time"></span></p>
-        <p><strong>接下来的5个刷新时间：</strong></p>
-        <ul id="next-periods"></ul>
+        <p><strong>最近的刷新时间：</strong> <span id="next-period"></span></p>
         <p id="time-until-next"></p>
+        <button id="toggle-button" onclick="toggleCollapse()">显示剩余刷新时间</button>
+        <ul id="collapsed-periods"></ul>
     </div>
 </body>
 </html>
