@@ -27,7 +27,19 @@ function calculatePeriods() {
     const periodDays = 14;
     const currentDate = new Date();
 
-    document.getElementById("current-time").innerHTML = currentDate.toLocaleString();
+    // 设置24小时制的时间格式选项
+    const options = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false  // 24小时制
+    };
+
+    // 显示当前时间
+    document.getElementById("current-time").innerHTML = currentDate.toLocaleString(undefined, options);
 
     let nextPeriods = [];
     let periodTime = startPeriod;
@@ -41,12 +53,12 @@ function calculatePeriods() {
 
     // 显示最近的一个周期时间
     const nextPeriodTime = nextPeriods[0];
-    document.getElementById("next-period").innerHTML = nextPeriodTime.toLocaleString();
+    document.getElementById("next-period").innerHTML = nextPeriodTime.toLocaleString(undefined, options);
 
     // 折叠显示其余的周期时间
     let collapsedPeriodsHtml = "";
     for (let i = 1; i < nextPeriods.length; i++) {
-        collapsedPeriodsHtml += "<li>" + nextPeriods[i].toLocaleString() + "</li>";
+        collapsedPeriodsHtml += "<li>" + nextPeriods[i].toLocaleString(undefined, options) + "</li>";
     }
     document.getElementById("collapsed-periods").innerHTML = collapsedPeriodsHtml;
 
