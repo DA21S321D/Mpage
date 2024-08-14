@@ -204,13 +204,29 @@ function loadCompletionState(periodName, periodId) {
 function toggleCompletion(periodName, periodId) {
     console.log(`Button ${periodId} clicked for period ${periodName}`);
 
-    const periodRef = window.firebaseRef(window.firebaseDatabase, 'periods/' + periodName);
+    // 使用正则表达式解析 periodName 中的日期和时间部分
+    const dateTimeRegex = /^(\d{4})\/(\d{1,2})\/(\d{1,2}) (\d{2}:\d{2}:\d{2})$/;
+    const match = periodName.match(dateTimeRegex);
+
+    if (!match) {
+        console.error(`Invalid date format in periodName: ${periodName}`);
+        return;
+    }
+
+    const year = match[1];
+    const month = match[2];
+    const day = match[3];
+    const timePart = match[4];
+
+    // 构建 Firebase 的引用路径，确保月份和日期是整数
+    const formattedPeriodRefPath = `periods/${year}/${parseInt(month)}/${parseInt(day)} ${timePart}`;
+    const periodRef = window.firebaseRef(window.firebaseDatabase, formattedPeriodRefPath);
 
     get(periodRef).then(snapshot => {
         if (snapshot.exists()) {
             const currentStatus = snapshot.val();
             const newStatus = !currentStatus;
-            
+
             console.log(`Toggling completion state for period ${periodName} to ${newStatus}`);
             set(periodRef, newStatus).then(() => {
                 updateButton(periodId, newStatus);
@@ -231,6 +247,9 @@ function toggleCompletion(periodName, periodId) {
         console.error(`Error toggling completion state for period ${periodName}:`, error);
     });
 }
+
+
+
 
 function updateButton(periodId, status) {
     const button = document.getElementById(`button-${periodId}`);
