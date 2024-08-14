@@ -23,7 +23,8 @@ body {
 #collapsed-periods {
     margin-top: 10px;
     list-style-type: none; /* 移除列表项前的圆点 */
-    padding-left: 10; /* 移除左边距 */
+    padding-left: 0; /* 这里将会真正影响周期的左对齐长度 */
+    margin-left: 15px; /* 左边距 */
 }
 
 #collapsed-periods li {
@@ -31,6 +32,7 @@ body {
     align-items: center; /* 垂直居中对齐 */
     justify-content: space-between; /* 保证两端对齐 */
     margin-bottom: 10px; /* 每个列表项之间的间距 */
+    
 }
 
 .date-container {
@@ -41,7 +43,9 @@ body {
     color: #333; /* 字体颜色 */
     display: flex;
     align-items: center; /* 确保文字垂直居中 */
+    margin-left: 10px; /* 设置左边距，调整此值以控制周期文字的左边距 */
 }
+
 button {
     background-color: #007BFF;
     color: white;
@@ -57,6 +61,7 @@ button:hover {
     background-color: #0056b3;
 }
 
+
 /*5个按钮的单独样式*/
 .completion-button {
     background-color: #007BFF;
@@ -66,7 +71,7 @@ button:hover {
     border-radius: 5px;
     cursor: pointer;
     margin-left: 5px; /* 左边距 */
-    margin-right: 10px; /* 右边距 */
+    margin-right: 15px; /* 右边距 */
     align-self: center;
 }
 
