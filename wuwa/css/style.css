@@ -23,9 +23,25 @@ body {
 #collapsed-periods {
     margin-top: 10px;
     list-style-type: none; /* 移除列表项前的圆点 */
-    padding-left: 0; /* 移除左边距 */
+    padding-left: 10; /* 移除左边距 */
 }
 
+#collapsed-periods li {
+    display: flex;
+    align-items: center; /* 垂直居中对齐 */
+    justify-content: space-between; /* 保证两端对齐 */
+    margin-bottom: 10px; /* 每个列表项之间的间距 */
+}
+
+.date-container {
+    flex: 1; /* 日期部分占据可用空间 */
+    text-align: left; /* 日期文字左对齐 */
+    font-family: Arial, sans-serif; /* 字体设置 */
+    font-size: 14px; /* 字体大小 */
+    color: #333; /* 字体颜色 */
+    display: flex;
+    align-items: center; /* 确保文字垂直居中 */
+}
 button {
     background-color: #007BFF;
     color: white;
@@ -33,14 +49,47 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-left: 5px; /* 按钮与日期部分之间的间距 */
+    align-self: center; /* 确保按钮在垂直方向上居中 */
 }
 
 button:hover {
     background-color: #0056b3;
 }
 
+/*5个按钮的单独样式*/
+.completion-button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 5px; /* 左边距 */
+    margin-right: 10px; /* 右边距 */
+    align-self: center;
+}
+
+.completion-button:hover {
+    background-color: #0056b3;
+}
+
+.completion-button.completed {
+    background-color: #28a745; /* 已完成按钮的背景色 */
+    color: white; /* 按钮文本为白色 */
+}
+
+.completion-button.not-completed {
+    background-color: #dc3545; /* 未完成按钮的背景色 */
+    color: white; /* 按钮文本为白色 */
+}
+
+
+
+
+
 #completed-periods {
-    max-height: 150px; /* 根据项目高度调整 */
+    max-height: 125px; /* 根据项目高度调整 */
     overflow-y: scroll; /* 确保垂直滚动条显示 */
     border: 1px solid #ccc;
     padding: 10px;

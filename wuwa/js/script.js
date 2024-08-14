@@ -61,7 +61,6 @@ function calculatePeriods() {
         hour12: false
     };
 
-
     let nextPeriods = [];
     
     // 计算与当前时间最近的一个未来周期
@@ -78,38 +77,7 @@ function calculatePeriods() {
 
     // 显示下一个周期时间
     const nextPeriodTime = nextPeriods[2];  // 中间的是当前周期
-    document.getElementById("next-period").innerHTML = nextPeriodTime.toLocaleString(undefined, {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-    });
-
-    // 检查和更新Firebase中的周期记录
-    nextPeriods.forEach(periodTime => {
-        const periodName = periodTime.toLocaleString(undefined, options);
-
-        const periodRef = window.firebaseRef(window.firebaseDatabase, 'periods/' + periodName);
-
-        // 检查Firebase中是否存在此周期的记录
-        get(periodRef).then(snapshot => {
-            if (!snapshot.exists()) {
-                console.log(`No data available for period ${periodName}. Creating default state.`);
-                set(periodRef, false).then(() => {
-                    console.log(`Default state for period ${periodName} created.`);
-                }).catch(error => {
-                    console.error(`Error creating default state for period ${periodName}:`, error);
-                });
-            } else {
-                console.log(`Period ${periodName} already exists in Firebase.`);
-            }
-        }).catch(error => {
-            console.error(`Error checking period ${periodName}:`, error);
-        });
-    });
+    document.getElementById("next-period").innerHTML = nextPeriodTime.toLocaleString(undefined, options);
 
     // 显示所有5个周期
     let collapsedPeriodsHtml = "";
@@ -118,7 +86,7 @@ function calculatePeriods() {
         const periodName = nextPeriods[i].toLocaleString(undefined, options);
         collapsedPeriodsHtml += `<li id="${periodId}">
             ${periodName}
-            <button id="button-${periodId}" onclick="toggleCompletion('${periodName}', '${periodId}')">加载中</button>
+            <button class="completion-button" id="button-${periodId}" onclick="toggleCompletion('${periodName}', '${periodId}')">加载中</button>
         </li>`;
     }
     document.getElementById("collapsed-periods").innerHTML = collapsedPeriodsHtml;
@@ -130,6 +98,7 @@ function calculatePeriods() {
         loadCompletionState(periodName, periodId);
     });
 }
+
 
 function RestTime(){
     const startPeriod = new Date("2024-08-19T17:00:00");
@@ -260,14 +229,17 @@ function updateButton(periodId, status) {
 
     if (status) {
         button.textContent = "已完成";
-        button.classList.add('completed');  // 添加一个类用于已完成状态的样式
+        button.classList.add('completed');
+        button.classList.remove('not-completed');
     } else {
         button.textContent = "未完成";
-        button.classList.remove('completed');  // 移除已完成状态的样式
+        button.classList.add('not-completed');
+        button.classList.remove('completed');
     }
 
     console.log(`Button with id ${periodId} updated to status: ${status ? '已完成' : '未完成'}`);
 }
+
 
 function toggleCollapse() {
     const collapseElement = document.getElementById("collapsed-periods");
