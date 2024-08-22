@@ -12,14 +12,37 @@
         <p><strong>当前时间：</strong> <span id="current-time"></span></p>
         <p><strong>最近的刷新时间：</strong> <span id="next-period"></span></p>
         <p id="time-until-next"></p>
-        <button id="toggle-button">显示剩余刷新时间</button>
-        <button id="toggle-button2">显示完成记录</button>
+    
+        <!-- 将按钮放在同一级别 -->
+        <div id="button-group">
+            <button id="toggle-button">显示剩余刷新时间</button>
+            <button id="toggle-button2">显示完成记录</button>
+            <button id="toggle-button3">输入并记录账号</button>
+        </div>
+    
         <ul id="collapsed-periods"></ul>
         <!-- 添加滚动的日历记录 -->
         <div id="completed-periods" style="display:none;">
             <ul id="completed-list"></ul>
         </div>
+    
+        <!-- 修改后的账号输入界面 -->
+        <div id="account-input-section" style="display:none;">
+            <input type="text" id="account-input" placeholder="输入账号">
+            <button id="save-account-button">保存账号</button>
+            <button id="add-note-button" style="display:none;">添加备注</button>
+            <ul id="account-list"></ul>
+        </div>        
+    
+        <!-- 添加备注的模态框 -->
+        <div id="note-modal" style="display: none;">
+            <textarea id="note-input" placeholder="输入备注"></textarea>
+            <button id="save-note-button">保存备注</button>
+            <button id="close-note-button">关闭</button>
+        </div>
     </div>
+    
+
     <script type="module" src="js/script.js"></script>
 </body>
 </html>

@@ -304,6 +304,149 @@ function loadCompletedPeriods() {
 
 
 
+//账号
+
+
+
+function deleteAccount(key) {
+    const accountRef = window.firebaseRef(window.firebaseDatabase, `accounts/${key}`);
+
+    set(accountRef, null).then(() => {
+        loadAccountList(); // 重新加载账号列表
+    }).catch(error => {
+        console.error('Error deleting account:', error);
+    });
+}
+
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert('已复制到剪贴板');
+    }).catch(error => {
+        console.error('Error copying to clipboard:', error);
+    });
+}
+
+//备注
+
+
+
+let currentAccountKey = null; // 全局变量，用于保存当前正在操作的账号的键
+
+function openNoteModal(key) {
+    currentAccountKey = key; // 设置当前账号键
+    if (!currentAccountKey) {
+        console.error('currentAccountKey is not set.');
+        return;
+    }
+
+    const noteModal = document.getElementById('note-modal');
+    const noteInput = document.getElementById('note-input');
+    noteModal.style.display = 'block';
+
+    const noteRef = window.firebaseRef(window.firebaseDatabase, `accounts/${currentAccountKey}/note`);
+    get(noteRef).then(snapshot => {
+        if (snapshot.exists()) {
+            noteInput.value = snapshot.val();
+        } else {
+            noteInput.value = ''; // 如果没有备注，确保输入框为空
+        }
+    }).catch(error => {
+        console.error('Error loading note:', error);
+    });
+
+    document.getElementById('save-note-button').onclick = function() {
+        saveNote();
+    };
+
+    document.getElementById('close-note-button').onclick = function() {
+        noteModal.style.display = 'none';
+    };
+}
+
+function openNoteModalForNewAccount() {
+    if (!currentAccountKey) {
+        console.error('currentAccountKey is not set.');
+        return;
+    }
+    openNoteModal(currentAccountKey);
+}
+
+function saveNote() {
+    const noteInput = document.getElementById('note-input').value.trim();
+    if (!currentAccountKey) {
+        console.error('currentAccountKey is not set.');
+        return;
+    }
+
+    const noteRef = window.firebaseRef(window.firebaseDatabase, `accounts/${currentAccountKey}/note`);
+    set(noteRef, noteInput).then(() => {
+        alert('备注已保存');
+        document.getElementById('note-modal').style.display = 'none';
+    }).catch(error => {
+        console.error('Error saving note:', error);
+    });
+}
+
+function saveAccount() {
+    const accountInput = document.getElementById("account-input").value.trim();
+    if (accountInput === '') {
+        alert('请输入账号内容');
+        return;
+    }
+
+    generateAccountKey(); // 确保 currentAccountKey 已经生成
+
+    const accountsRef = window.firebaseRef(window.firebaseDatabase, `accounts/${currentAccountKey}/value`);
+    
+    // 保存账号内容
+    set(accountsRef, accountInput).then(() => {
+        document.getElementById("account-input").value = ''; // 清空输入框
+        loadAccountList(); // 重新加载账号列表
+        currentAccountKey = null; // 保存后重置 currentAccountKey
+    }).catch(error => {
+        console.error('Error saving account:', error);
+    });
+}
+
+function generateAccountKey() {
+    if (!currentAccountKey) {
+        currentAccountKey = new Date().getTime().toString(); // 使用时间戳作为唯一键
+    }
+}
+
+function loadAccountList() {
+    const accountList = document.getElementById("account-list");
+    const accountsRef = window.firebaseRef(window.firebaseDatabase, 'accounts');
+
+    get(accountsRef).then(snapshot => {
+        accountList.innerHTML = ''; // 清空列表
+        if (snapshot.exists()) {
+            const accounts = snapshot.val();
+            for (const key in accounts) {
+                const accountItem = accounts[key];
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <div class="account-item">
+                        <span>${accountItem.value}</span>
+                        <div class="account-actions">
+                            <button class="copy-button" onclick="copyToClipboard('${accountItem.value}')">复制</button>
+                            <button class="delete-button" onclick="deleteAccount('${key}')">删除</button>
+                            <button class="note-button" onclick="openNoteModal('${key}')">查看备注</button>
+                        </div>
+                    </div>
+                `;
+                accountList.appendChild(listItem);
+            }
+        } else {
+            accountList.innerHTML = '<li>暂无记录。</li>';
+        }
+    }).catch(error => {
+        console.error('Error loading accounts:', error);
+    });
+}
+
+
 
 
 //将函数暴露在全局作用域上
@@ -313,6 +456,9 @@ window.calculatePeriods = calculatePeriods;
 window.toggleCollapse = toggleCollapse;
 window.loadCompletionState = loadCompletionState;
 window.updateButton = updateButton;
+window.copyToClipboard = copyToClipboard;
+window.deleteAccount = deleteAccount;
+window.openNoteModal = openNoteModal;
 
 window.onload = function() {
     console.log("Window onload triggered");
@@ -342,7 +488,44 @@ window.onload = function() {
     } else {
         console.error("Button 2 not found!");
     }
+
+    // 账号输入界面控制
+    const toggleButton3 = document.getElementById("toggle-button3");
+    const accountInputSection = document.getElementById("account-input-section");
+
+    if (toggleButton3) {
+        toggleButton3.addEventListener("click", function() {
+            if (accountInputSection.style.display === "none") {
+                accountInputSection.style.display = "block";
+                loadAccountList(); // 立即加载历史保存的账号
+            } else {
+                accountInputSection.style.display = "none";
+            }
+        });
+    } else {
+        console.error("Button 3 not found!");
+    }
+
+    // 账号输入和备注
+    const accountInput = document.getElementById('account-input');
+    const saveAccountButton = document.getElementById('save-account-button');
+    const addNoteButton = document.getElementById('add-note-button');
+
+    accountInput.addEventListener('input', function() {
+        if (accountInput.value.trim() !== '') {
+            generateAccountKey(); // 在输入账号时生成 key
+            addNoteButton.style.display = 'inline-block'; // 显示添加备注按钮
+        } else {
+            addNoteButton.style.display = 'none'; // 隐藏添加备注按钮
+            currentAccountKey = null; // 清空输入框时重置 key
+        }
+    });
+
+    saveAccountButton.addEventListener('click', saveAccount);
+    addNoteButton.addEventListener('click', openNoteModalForNewAccount);
 };
 
 // 每秒更新一次距离下一个周期的时间
 setInterval(RestTime, 1000);
+
+
