@@ -139,22 +139,17 @@ button:hover {
 }
 
 #account-list li {
-    padding: 5px 0;
+    padding: 10px 0;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.account-item {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column; /* 使按钮显示在账号记录的下方 */
+    align-items: flex-start;
 }
 
 .account-actions {
     display: flex;
-    gap: 10px; /* 按钮之间的间距 */
+    justify-content: space-between;
+    margin-top: 10px; /* 增加按钮与账号记录之间的间距 */
+    width: 100%; /* 让按钮在宽度上充满列表项 */
 }
 
 .copy-button, .delete-button, .note-button {
@@ -164,7 +159,7 @@ button:hover {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 80px; /* 设置统一宽度 */
+    width: 100px; /* 每个按钮的宽度一致 */
     text-align: center;
 }
 
@@ -175,6 +170,7 @@ button:hover {
 .note-button {
     background-color: #ffc107;
 }
+
 
 
 

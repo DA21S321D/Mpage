@@ -429,11 +429,11 @@ function loadAccountList() {
                 listItem.innerHTML = `
                     <div class="account-item">
                         <span>${accountItem.value}</span>
-                        <div class="account-actions">
-                            <button class="copy-button" onclick="copyToClipboard('${accountItem.value}')">复制</button>
-                            <button class="delete-button" onclick="deleteAccount('${key}')">删除</button>
-                            <button class="note-button" onclick="openNoteModal('${key}')">查看备注</button>
-                        </div>
+                    </div>
+                    <div class="account-actions">
+                        <button class="copy-button" onclick="copyToClipboard('${accountItem.value}')">复制</button>
+                        <button class="delete-button" onclick="deleteAccount('${key}')">删除</button>
+                        <button class="note-button" onclick="openNoteModal('${key}')">查看备注</button>
                     </div>
                 `;
                 accountList.appendChild(listItem);
@@ -445,6 +445,7 @@ function loadAccountList() {
         console.error('Error loading accounts:', error);
     });
 }
+
 
 
 
