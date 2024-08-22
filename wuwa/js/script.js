@@ -415,6 +415,8 @@ function generateAccountKey() {
     }
 }
 
+let currentSelectedKey = null; // 全局变量，用于保存当前选中的账号的键
+
 function loadAccountList() {
     const accountList = document.getElementById("account-list");
     const accountsRef = window.firebaseRef(window.firebaseDatabase, 'accounts');
@@ -426,16 +428,16 @@ function loadAccountList() {
             for (const key in accounts) {
                 const accountItem = accounts[key];
                 const listItem = document.createElement('li');
-                listItem.innerHTML = `
-                    <div class="account-item">
-                        <span>${accountItem.value}</span>
-                    </div>
-                    <div class="account-actions">
-                        <button class="copy-button" onclick="copyToClipboard('${accountItem.value}')">复制</button>
-                        <button class="delete-button" onclick="deleteAccount('${key}')">删除</button>
-                        <button class="note-button" onclick="openNoteModal('${key}')">查看备注</button>
-                    </div>
-                `;
+                listItem.textContent = accountItem.value;
+
+                listItem.onclick = function() {
+                    selectAccount(key, listItem);
+                };
+
+                listItem.ondblclick = function() {
+                    copyToClipboard(accountItem.value); // 双击时自动复制
+                };
+
                 accountList.appendChild(listItem);
             }
         } else {
@@ -447,6 +449,43 @@ function loadAccountList() {
 }
 
 
+function selectAccount(key, listItem) {
+    const accountList = document.getElementById("account-list");
+    const items = accountList.getElementsByTagName('li');
+
+    for (let i = 0; i < items.length; i++) {
+        items[i].classList.remove('selected');
+    }
+
+    listItem.classList.add('selected');
+    currentSelectedKey = key;
+}
+
+function copySelectedAccount() {
+    if (currentSelectedKey) {
+        const selectedAccount = document.querySelector(`#account-list li.selected`).textContent;
+        copyToClipboard(selectedAccount);
+    } else {
+        alert('请选择一个账号');
+    }
+}
+
+function deleteSelectedAccount() {
+    if (currentSelectedKey) {
+        deleteAccount(currentSelectedKey);
+        currentSelectedKey = null; // 重置选择
+    } else {
+        alert('请选择一个账号');
+    }
+}
+
+function viewNote() {
+    if (currentSelectedKey) {
+        openNoteModal(currentSelectedKey);
+    } else {
+        alert('请选择一个账号');
+    }
+}
 
 
 
@@ -460,6 +499,9 @@ window.updateButton = updateButton;
 window.copyToClipboard = copyToClipboard;
 window.deleteAccount = deleteAccount;
 window.openNoteModal = openNoteModal;
+window.copySelectedAccount = copySelectedAccount;
+window.deleteSelectedAccount = deleteSelectedAccount;
+window.viewNote = viewNote;
 
 window.onload = function() {
     console.log("Window onload triggered");

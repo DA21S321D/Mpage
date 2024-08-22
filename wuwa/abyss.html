@@ -31,8 +31,17 @@
             <input type="text" id="account-input" placeholder="输入账号">
             <button id="save-account-button">保存账号</button>
             <button id="add-note-button" style="display:none;">添加备注</button>
-            <ul id="account-list"></ul>
-        </div>        
+        
+            <div id="account-list-container">
+                <ul id="account-list"></ul>
+            </div>
+        
+            <div id="account-actions">
+                <button id="copy-button" onclick="copySelectedAccount()">复制</button>
+                <button id="delete-button" onclick="deleteSelectedAccount()">删除</button>
+                <button id="note-button" onclick="viewNote()">查看备注</button>
+            </div>
+        </div>      
     
         <!-- 添加备注的模态框 -->
         <div id="note-modal" style="display: none;">

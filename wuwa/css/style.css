@@ -138,19 +138,64 @@ button:hover {
     margin-top: 10px;
 }
 
-#account-list li {
-    padding: 10px 0;
-    display: flex;
-    flex-direction: column; /* 使按钮显示在账号记录的下方 */
-    align-items: flex-start;
+#account-list-container {
+    max-height: 125px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-top: 10px;
 }
 
-.account-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px; /* 增加按钮与账号记录之间的间距 */
-    width: 100%; /* 让按钮在宽度上充满列表项 */
+#account-list li {
+    padding: 5px;
+    cursor: pointer;
 }
+
+#account-list li.selected {
+    background-color: #007BFF;
+    color: white;
+}
+
+#account-actions {
+    margin-top: 10px;
+}
+
+#account-actions button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#copy-button {
+    background-color: #007BFF;
+}
+
+#copy-button:hover {
+    background-color: #0056b3;
+}
+
+#delete-button {
+    background-color: #dc3545;
+}
+
+#delete-button:hover {
+    background-color: #c82333;
+}
+
+#note-button {
+    background-color: #ffc107;
+    color: black;
+}
+
+#note-button:hover {
+    background-color: #e0a800;
+}
+
+
 
 .copy-button, .delete-button, .note-button {
     padding: 5px;
