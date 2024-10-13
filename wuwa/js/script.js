@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics.js";
 import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+import { images } from '../pic/images.js';
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -23,82 +24,7 @@ window.firebaseRef = ref;
 
 // Functions
 function loadRandomBackground() {
-    const images = [
-        'pic/1.png',
-        'pic/2.png',
-        'pic/3.png',
-        'pic/4.png',
-        'pic/5.png',
-        'pic/6.png',
-        'pic/7.png',
-        'pic/8.png',
-        'pic/119450370_p0.jpg',
-        'pic/120823001_p0.jpg',
-        'pic/116243969_p0.jpg',
-        'pic/116174403_p0.png',
-        'pic/120842481_p0.jpg',
-        'pic/121365870_p0.png',
-        'pic/110740991_p0.jpg',
-        'pic/118979468_p0.jpg',
-        'pic/120870513_p0.jpg',
-        'pic/120039066_p0.png',
-        'pic/121104365_p0.jpg',
-        'pic/105105351_p0.png',
-        'pic/119306759_p0.png',
-        'pic/117495523_p0.png',
-        'pic/118977650_p0.jpg',
-        'pic/119428499_p0.jpg',
-        'pic/114795606_p0.png',
-        'pic/119069380_p0.jpg',
-        'pic/118975544_p0.jpg',
-        'pic/99024628_p0.jpg',
-        'pic/111031590_p0.jpg',
-        'pic/116175642_p0.jpg',
-        'pic/120141657_p0.png',
-        'pic/121384542_p0.png',
-        'pic/120044228_p0.png',
-        'pic/122424669_p0.png',
-        'pic/119398926_p0.jpg',
-        'pic/120765424_p0.jpg',
-        'pic/120779486_p0.png',
-        'pic/120999168_p0.png',
-        'pic/119879001_p0.jpg',
-        'pic/119670822_p0.jpg',
-        'pic/121475519_p0.jpg',
-        'pic/122871619_p0.png',
-        'pic/118860545_p0.png',
-        'pic/119384197_p0.jpg',
-        'pic/119978393_p0.jpg',
-        'pic/107266044_p0.jpg',
-        'pic/121665267_p0.jpg',
-        'pic/110382675_p0.png',
-        'pic/119257746_p0.jpg',
-        'pic/119011711_p0.jpg',
-        'pic/118893487_p0.png',
-        'pic/119350223_p0.png',
-        'pic/120254887_p0.png',
-        'pic/107112016_p0.jpg',
-        'pic/112861628_p0.png',
-        'pic/120771139_p0.png',
-        'pic/122902492_p0.jpg',
-        'pic/120768830_p0.png',
-        'pic/120084346_p0.jpg',
-        'pic/119011742_p0.jpg',
-        'pic/119154907_p0.jpg',
-        'pic/114012288_p0.png',
-        'pic/119142262_p0.jpg',
-        'pic/120232649_p0.png',
-        'pic/113348704_p0.jpg',
-        'pic/119410267_p0.png',
-        'pic/119153120_p0.jpg',
-        'pic/119541839_p0.jpg',
-        'pic/121575678_p0.png',
-        'pic/119468901_p0.png',
-        'pic/121705574_p0.jpg',
-        'pic/121826167_p0.jpg',
-
-
-    ];
+    console.log(images);
 
     const randomIndex = Math.floor(Math.random() * images.length);
     const selectedImage = images[randomIndex];
