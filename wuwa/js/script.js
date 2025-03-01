@@ -44,7 +44,7 @@ function loadRandomBackground() {
 
 function calculatePeriods() {
     const startPeriod = new Date("2024-08-19T17:00:00");
-    const periodDays = 14;
+    const periodDays = 14 * 2;
     const currentDate = new Date();
 
     const options = {
