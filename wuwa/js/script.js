@@ -128,7 +128,7 @@ function RestTime(){
     }
 
     // 显示下一个周期时间
-    const nextPeriodTime = nextPeriods[2];  // 中间的是当前周期
+    const nextPeriodTime = nextPeriods[2] + 14;  // 中间的是当前周期,这里是剩余的时间为了区分鸣歌海墟
 
       // 更新剩余时间
       const timeDiff = nextPeriodTime - currentDate;
@@ -139,7 +139,7 @@ function RestTime(){
       const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
   
       document.getElementById("time-until-next").innerHTML =
-          "距离下一次刷新还有：" + days + "天 " + hours + "小时 " + minutes + "分钟 " + seconds + "秒";
+          "距鸣歌海墟刷新还有：" + days + "天 " + hours + "小时 " + minutes + "分钟 " + seconds + "秒";
   
 
 }
