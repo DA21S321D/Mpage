@@ -128,7 +128,7 @@ function RestTime(){
     }
 
     // 显示下一个周期时间
-    const nextPeriodTime =  new Date((nextPeriods[2].getTime() + 14 * 24 * 60 * 60 * 1000) % (2 * 14 * 24 * 60 * 60 * 1000));  // 中间的是当前周期,这里是剩余的时间为了区分鸣歌海墟
+    const nextPeriodTime = nextPeriods[2];  // 中间的是当前周期,这里是剩余的时间为了区分鸣歌海墟
 
       // 更新剩余时间
       const timeDiff = nextPeriodTime - currentDate;
