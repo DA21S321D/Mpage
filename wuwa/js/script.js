@@ -139,7 +139,7 @@ function RestTime(){
       const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
   
       document.getElementById("time-until-next").innerHTML =
-          "距鸣歌海墟刷新还有：" + days + "天 " + hours + "小时 " + minutes + "分钟 " + seconds + "秒";
+          "距鸣歌海墟刷新还有：" + (days +14)%28 + "天 " + hours + "小时 " + minutes + "分钟 " + seconds + "秒";
   
 
 }
