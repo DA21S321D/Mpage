@@ -130,18 +130,18 @@ function RestTime(){
     // 显示下一个周期时间
     const nextPeriodTime = nextPeriods[2];  // 中间的是当前周期,这里是剩余的时间为了区分鸣歌海墟
 
-      // 更新剩余时间
-      const timeDiff = nextPeriodTime - currentDate;
+    // 更新剩余时间
+    const timeDiff = nextPeriodTime - currentDate;
 
-      const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-  
-      document.getElementById("time-until-next").innerHTML =
-          "距鸣歌海墟刷新还有：" + (days +14)%28 + "天 " + hours + "小时 " + minutes + "分钟 " + seconds + "秒";
-  
+    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
+    document.getElementById("time-until-next").innerHTML =
+        "鸣歌海墟：" + (days +14)%28 + "天 " + hours + "小时 " + minutes + "分钟 " + seconds + "秒";
+    document.getElementById("time-until-next_abyss").innerHTML =
+    "深塔：" + (days)%28 + "天 " + hours + "小时 " + minutes + "分钟 " + seconds + "秒";
 }
 function loadCompletionState(periodName, periodId) {
     const button = document.getElementById(`button-${periodId}`);
